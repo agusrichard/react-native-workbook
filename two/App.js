@@ -1,32 +1,37 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
 
 export default function App() {
-  const [name, setName] = useState('')
-  const [age, setAge] = useState()
+  const [people, setPeople] = useState([
+    {id: 1, name: 'Agus'},
+    {id: 2, name: 'Sekar'},
+    {id: 3, name: 'Saskia'},
+    {id: 4, name: 'Arifa'},
+    {id: 5, name: 'Agus'},
+    {id: 6, name: 'Sekar'},
+    {id: 7, name: 'Saskia'},
+    {id: 8, name: 'Arifa'},
+  ])
 
   return (
     <View style={ styles.container }>
-      <View>
-        <Text>Enter name:</Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder="e.g Sekardayu"
-          onChangeText={(val) => setName(val)}
-        />
-      </View>
-      <View>
-        <Text>Enter age:</Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder="e.g 21"
-          keyboardType="numeric"
-          onChangeText={(val) => setAge(val)}
-        />
-      </View>
-      <View>
-        <Text>name: { name }, age: { age }</Text>
-      </View>
+      {/* <ScrollView>
+        { people.map(person => {
+          return (
+            <View key={ person.key }>
+              <Text style={styles.item}>{ person.name }</Text>
+            </View>
+          )
+        }) }
+      </ScrollView> */}
+
+      <FlatList
+        keyExtractor={(item) => item.id.toString()}
+        data={people}
+        renderItem={({ item }) => (
+          <Text style={styles.item}>{ item.name }</Text>
+        )}
+      />
     </View>
   );
 }
@@ -35,15 +40,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 40,
+    paddingHorizontal: 20
   },
-  textInput: {
-    borderColor: '#555',
-    borderWidth: 1,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    width: 200,
-    marginBottom: 5
+  item: {
+    backgroundColor: '#555',
+    marginVertical: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    fontSize: 24,
+    color: '#fff'
   }
 });
