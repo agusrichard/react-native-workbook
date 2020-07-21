@@ -1,35 +1,42 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
+import Header from './components/Header'
+import TodoItem from './components/TodoItem';
+import AddTodo from './components/AddTodo';
 
 export default function App() {
-  const [people, setPeople] = useState([
-    {id: 1, name: 'Agus'},
-    {id: 2, name: 'Sekar'},
-    {id: 3, name: 'Saskia'},
-    {id: 4, name: 'Arifa'},
-    {id: 5, name: 'Agus'},
-    {id: 6, name: 'Sekar'},
-    {id: 7, name: 'Saskia'},
-    {id: 8, name: 'Arifa'},
+  const [todos, setTodos] = useState([
+    {id: 0, todo: 'Talk to Sekar'},
+    {id: 1, todo: 'Play toss and catch'},
+    {id: 2, todo: 'Drum Exercise'},
+    {id: 3, todo: 'Coding'},
+    {id: 5, todo: 'Write'},
   ])
+
+  const removeTodo = (id) => {
+    setTodos((prevTodos) => {
+      return prevTodos.filter(item => item.id !== id)
+    })
+  }
+
+  const addTodo = (text) => {
+    setTodos((prevTodos) => {
+      return [
+        {id: Math.random(), todo: text},
+        ...prevTodos
+      ]
+    })
+  }
 
   return (
     <View style={ styles.container }>
-      {/* <ScrollView>
-        { people.map(person => {
-          return (
-            <View key={ person.key }>
-              <Text style={styles.item}>{ person.name }</Text>
-            </View>
-          )
-        }) }
-      </ScrollView> */}
-
-      <FlatList
+      <Header />
+      <AddTodo addTodo={addTodo} />
+      <FlatList 
+        data={ todos }
         keyExtractor={(item) => item.id.toString()}
-        data={people}
         renderItem={({ item }) => (
-          <Text style={styles.item}>{ item.name }</Text>
+          <TodoItem item={item} removeTodo={removeTodo} />
         )}
       />
     </View>
@@ -40,15 +47,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 40,
-    paddingHorizontal: 20
-  },
-  item: {
-    backgroundColor: '#555',
-    marginVertical: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    fontSize: 24,
-    color: '#fff'
   }
 });
