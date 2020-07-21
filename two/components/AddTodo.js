@@ -5,14 +5,20 @@ import { StyleSheet, View, Text, TextInput, Button } from 'react-native'
 export default function AddTodo({ addTodo }) {
   const [text, setText] = useState('')
 
+  const handlePress = () => {
+    addTodo(text)
+    setText('')
+  }
+
   return (
     <View style={styles.inputContainer}>
       <TextInput 
         style={styles.input}
+        value={text}
         placeholder="New Todo..." 
         onChangeText={(val) => setText(val)}
       />
-      <Button title="Add+" color="indigo" onPress={() => addTodo(text)} />
+      <Button title="Add+" color="indigo" onPress={handlePress} />
     </View>
   )
 }
